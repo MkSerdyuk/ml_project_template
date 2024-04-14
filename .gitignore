@@ -2,11 +2,15 @@
 __pycache__/
 *.py[cod]
 
+
 # Distribution / packaging
 env/
+.venv/
+.github/
 
 # Jupyter NB Checkpoints
 .ipynb_checkpoints/
 
 # Mac OS-specific storage files
 .DS_Store
+notebooks/catboost_info/
