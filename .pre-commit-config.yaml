@@ -1,27 +1,50 @@
+ci:
+  autofix_prs: true
+  autoupdate_schedule: weekly
+  autoupdate_commit_msg: 'chore: pre-commit autoupdate'
+
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.3.0
-    hooks:
-      - id: check-added-large-files
-      - id: check-ast
-      - id: check-byte-order-marker
-      - id: check-case-conflict
-      - id: check-docstring-first
-      - id: check-executables-have-shebangs
-      - id: check-merge-conflict
-      - id: check-yaml
-      - id: debug-statements
-      - id: detect-private-key
-      - id: end-of-file-fixer
-      - id: requirements-txt-fixer
-      - id: trailing-whitespace
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.5.0
+  hooks:
+  - id: check-json
+  - id: check-toml
+  - id: check-yaml
+  - id: end-of-file-fixer
+    exclude: (docs/.*|samples/.*\.json)
+  - id: trailing-whitespace
+    exclude: |
+        (?x)^(
+            .bumpversion.cfg
+        )$
 
-  - repo: https://github.com/psf/black
-    rev: 24.3.0
-    hooks:
-      - id: black
+- repo: https://github.com/psf/black
+  rev: 24.3.0
+  hooks:
+  - id: black
 
-  - repo: https://github.com/PyCQA/flake8
-    rev: 7.0.0
-    hooks:
-      - id: flake8
+- repo: https://github.com/pycqa/isort
+  rev: 5.13.2
+  hooks:
+  - id: isort
+
+- repo: https://github.com/asottile/pyupgrade
+  rev: v3.15.2
+  hooks:
+  - id: pyupgrade
+    args: ['--py37-plus']
+
+- repo: https://github.com/pycqa/flake8
+  rev: 7.0.0
+  hooks:
+  - id: flake8
+    additional_dependencies:
+    - darglint==1.8.1
+    - flake8-annotations==2.9.0
+    - flake8-docstrings==1.6.0
+
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: v1.9.0
+  hooks:
+  - id: mypy
+    exclude: 'tests'

@@ -1,14 +1,19 @@
-class Model:
-    def __init__(self, model, criterion):
-        self.__model = model
-        self.__criterion = criterion
+from abc import ABC
+from numpy.typing import ArrayLike
 
-    def fit(self, X, y):
-        self.__model.fit(X, y)
 
-    def predict(self, X):
-        return self.__model.predict(X)
+class ModelEnvelope(ABC):
+    def __init__(self):
+        pass
 
-    def score(self, X, y):
-        y_pred = self.predict(X)
-        return self.__criterion(y, y_pred)
+    def fit(self, X: ArrayLike, y: ArrayLike) -> dict:
+        return {}
+
+    def predict(self, X: ArrayLike) -> ArrayLike:
+        return []
+
+    def score(self, X: ArrayLike, y: ArrayLike) -> float:
+        return 0.0
+
+    def get_wandb_params(self) -> dict:
+        return {}
