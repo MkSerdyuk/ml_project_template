@@ -8,6 +8,9 @@ env/
 .venv/
 .github/
 .env
+wandb/
+catboost_info/
+
 
 # Jupyter NB Checkpoints
 .ipynb_checkpoints/
