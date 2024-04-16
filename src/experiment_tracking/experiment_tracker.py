@@ -1,3 +1,4 @@
+from matplotlib.pyplot import ylabel
 import wandb
 from typing import Dict
 from numpy.typing import ArrayLike
@@ -17,28 +18,27 @@ class Expirement_Tracker:
 
     def run_experiment(
         self,
-        X_train: ArrayLike,
-        y_train: ArrayLike,
-        X_test: ArrayLike | None = None,
-        y_test: ArrayLike | None = None,
+        X: ArrayLike,
+        y: ArrayLike,
+        cv: int = 10,
     ):
 
         log = {}
 
         for model_name in self.__models:
             model = self.__models[model_name]
-
-            if X_test is not None and y_test is not None:
-                log[model_name] = model.fit(X_train, y_train, X_test, y_test)
-            else:
-                log[model_name] = model.fit(X_train, y_train)
+            log[model_name] = model.fit(X, y, cv)
 
             print(f"{model_name} is trained")
 
-        for i in range(len(log[model_name])):
-
-            log_item = {}
-            for model_name in log:
-                log_item[model_name] = log[model_name][i]
-
-            self.__wandb_run.log(log_item)
+        self.__wandb_run.log(
+            {
+                "cv_scores": wandb.plot.line_series(
+                    xs=[i for i in range(cv)],
+                    ys=list(log.values()),
+                    keys=list(log.keys()),
+                    title="Cross-validation scores",
+                    xname="Iteration",
+                )
+            }
+        )
