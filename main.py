@@ -5,6 +5,7 @@ from src.data_processing.simple_one_hot import process_data
 from src.experiment_tracking.experiment_tracker import Expirement_Tracker
 from src.models.catboost import CatBoost
 from src.models.random_forest import RandomForest, RandomForestOptimized
+from src.models.linear_regression import LinRegression
 
 
 def main():
@@ -17,6 +18,7 @@ def main():
         "CatBoost": CatBoost(),
         "RandomForest": RandomForest(),
         "OptimizedRandomForest": RandomForestOptimized(),
+        "LinearRegression": LinRegression(),
     }
 
     experiment_models = Expirement_Tracker(models, "ml_project_template", wadb_token)
