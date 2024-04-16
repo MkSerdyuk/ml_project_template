@@ -25,7 +25,7 @@ def process_data(path):
     df = df.drop(index=df[df["SalePrice"] <= 0].index, axis=0)
     q1 = df["SalePrice"].quantile(0.25)
     q3 = df["SalePrice"].quantile(0.75)
-    mask = df["SalePrice"].between(q1, q3, inclusive=True)
+    mask = df["SalePrice"].between(q1, q3, inclusive="both")
     df = df.loc[mask]
 
     X = df.drop("SalePrice", axis=1)

@@ -26,12 +26,12 @@ def process_data(path):
     df = df.drop(index=df[df["SalePrice"] <= 0].index, axis=0)
     q1: float = df["SalePrice"].quantile(0.25)
     q3 = df["SalePrice"].quantile(0.75)
-    mask = df["SalePrice"].between(q1, q3, inclusive=True)
+    mask = df["SalePrice"].between(q1, q3, inclusive="both")
     df = df.loc[mask]
-
-    X = SelectKBest(f_regression, k=100).fit_transform(X, y)
 
     X = df.drop("SalePrice", axis=1)
     y = df["SalePrice"]
+
+    X = SelectKBest(f_regression, k=100).fit_transform(X, y)
 
     return X, y

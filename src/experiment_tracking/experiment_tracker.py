@@ -24,8 +24,19 @@ class Expirement_Tracker:
         y: ArrayLike,
         scorer: str | None = None,
         plot_name="Cross-validation scores",
-        cv: int = 10,
+        cv: int | None = 10,
     ):
+        """
+        Runs an experiment and logs it to wandb using the given input features, target values, and optional parameters.
+
+        Parameters:
+            X (ArrayLike): The input features of the training data.
+            y (ArrayLike): The target values of the training data.
+            scorer (str | None, optional): The scoring metric to use for evaluation. Defaults to None.
+            plot_name (str, optional): The name of the plot to be generated. Defaults to "Cross-validation scores".
+            cv (int | None, optional): The number of cross-validation folds to perform. Defaults to 10.
+
+        """
 
         log = {}
 
@@ -37,7 +48,7 @@ class Expirement_Tracker:
 
         self.__wandb_run.log(
             {
-                "cv_scores": wandb.plot.line_series(
+                plot_name: wandb.plot.line_series(
                     xs=[i + 1 for i in range(cv)],
                     ys=list(log.values()),
                     keys=list(log.keys()),
