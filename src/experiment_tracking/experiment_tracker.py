@@ -22,6 +22,8 @@ class Expirement_Tracker:
         self,
         X: ArrayLike,
         y: ArrayLike,
+        scorer: str | None = None,
+        plot_name="Cross-validation scores",
         cv: int = 10,
     ):
 
@@ -29,14 +31,20 @@ class Expirement_Tracker:
 
         for model_name in self.__models:
             model = self.__models[model_name]
-            log[model_name] = model.fit(X, y, cv)
+            log[model_name] = model.fit(X, y, scorer=scorer, cv=cv)
 
             print(f"{model_name} is trained")
 
-        for i in range(cv):
-            log_item = {}
+        self.__wandb_run.log(
+            {
+                "cv_scores": wandb.plot.line_series(
+                    xs=[i for i in range(cv)],
+                    ys=list(log.values()),
+                    keys=list(log.keys()),
+                    title=plot_name,
+                    xname="Iteration",
+                )
+            }
+        )
 
-            for model_name in self.__models:
-                log_item[model_name] = log[model_name][i]
-
-            self.__wandb_run.log({"loss": log_item})
+        self.__wandb_run.finish()

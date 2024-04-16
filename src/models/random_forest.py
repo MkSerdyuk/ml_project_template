@@ -3,6 +3,7 @@ import numpy as np
 from typing import List
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import learning_curve
+
 from numpy.typing import ArrayLike
 
 from src.models.model import ModelEnvelope
@@ -18,6 +19,7 @@ class RandomForest(ModelEnvelope):
         self,
         X: ArrayLike,
         y: ArrayLike,
+        scorer: str = "neg_root_mean_squared_error",
         cv: int = 10,
     ) -> ArrayLike:
 
@@ -27,6 +29,7 @@ class RandomForest(ModelEnvelope):
             y,
             train_sizes=np.linspace(1.0 / cv, 1.0, cv),
             cv=cv,
+            scoring=scorer,
         )
 
         return list(test_scores[0])
@@ -47,6 +50,7 @@ class RandomForestOptimized(ModelEnvelope):
         self,
         X: ArrayLike,
         y: ArrayLike,
+        scorer: str | None = None,
         cv: int = 10,
     ) -> List[float]:
 
