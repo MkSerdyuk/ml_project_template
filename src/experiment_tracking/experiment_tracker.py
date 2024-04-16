@@ -1,5 +1,7 @@
-from matplotlib.pyplot import ylabel
 import wandb
+
+from socket import timeout
+from matplotlib.pyplot import ylabel
 from typing import Dict
 from numpy.typing import ArrayLike
 
@@ -31,14 +33,10 @@ class Expirement_Tracker:
 
             print(f"{model_name} is trained")
 
-        self.__wandb_run.log(
-            {
-                "cv_scores": wandb.plot.line_series(
-                    xs=[i for i in range(cv)],
-                    ys=list(log.values()),
-                    keys=list(log.keys()),
-                    title="Cross-validation scores",
-                    xname="Iteration",
-                )
-            }
-        )
+        for i in range(cv):
+            log_item = {}
+
+            for model_name in self.__models:
+                log_item[model_name] = log[model_name][i]
+
+            self.__wandb_run.log({"loss": log_item})
