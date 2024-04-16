@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import List
 from sklearn.model_selection import learning_curve
 from numpy.typing import ArrayLike
 
@@ -8,7 +9,7 @@ class ModelEnvelope(ABC):
     def __init__(self):
         pass
 
-    def fit(self, X: ArrayLike, y: ArrayLike, cv: int = 10) -> ArrayLike:
+    def fit(self, X: ArrayLike, y: ArrayLike, cv: int = 10) -> List[float]:
         return []
 
     def predict(self, X: ArrayLike) -> ArrayLike:

@@ -1,4 +1,5 @@
 import numpy as np
+from typing import List
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import learning_curve
 from numpy.typing import ArrayLike
@@ -16,7 +17,7 @@ class LinRegression(ModelEnvelope):
         X: ArrayLike,
         y: ArrayLike,
         cv: int = 10,
-    ) -> ArrayLike:
+    ) -> List[float]:
 
         train_size, train_scores, test_scores = learning_curve(
             self.__model,
