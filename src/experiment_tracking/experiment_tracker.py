@@ -38,7 +38,7 @@ class Expirement_Tracker:
         self.__wandb_run.log(
             {
                 "cv_scores": wandb.plot.line_series(
-                    xs=[i for i in range(cv)],
+                    xs=[i + 1 for i in range(cv)],
                     ys=list(log.values()),
                     keys=list(log.keys()),
                     title=plot_name,

@@ -59,6 +59,7 @@ class RandomForestOptimized(ModelEnvelope):
             X,
             y,
             train_sizes=np.linspace(1.0 / cv, 1.0, cv),
+            scoring=scorer,
             cv=cv,
         )
 
