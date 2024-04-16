@@ -22,6 +22,8 @@ def process_data(path):
 
     df.fillna(df.mean(), inplace=True)
 
+    df = df.drop(index=df[df["SalePrice"] <= 0].index, axis=0)
+
     X = df.drop("SalePrice", axis=1)
     y = df["SalePrice"]
 

@@ -1,21 +1,17 @@
 import numpy as np
 
 from typing import List
+from sklearn.svm import LinearSVR
 from sklearn.model_selection import learning_curve
 
-from catboost import CatBoostRegressor
 from numpy.typing import ArrayLike
 from src.models.model import ModelEnvelope
 
 
-class CatBoost(ModelEnvelope):
-
+class SVM_Model(ModelEnvelope):
     def __init__(self):
-        self.__model = CatBoostRegressor(
-            random_seed=42,
-            logging_level="Silent",
-            iterations=50,
-        )
+        super().__init__()
+        self.__model = LinearSVR()
 
     def fit(
         self,
@@ -34,4 +30,4 @@ class CatBoost(ModelEnvelope):
             scoring=scorer,
         )
 
-        return test_scores[0]
+        return list(test_scores[0])
