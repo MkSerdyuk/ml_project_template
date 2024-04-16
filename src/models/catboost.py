@@ -31,4 +31,4 @@ class CatBoost(ModelEnvelope):
             cv=cv,
         )
 
-        return test_scores[0]
+        return list(test_scores[0])
